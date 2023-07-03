@@ -8,12 +8,15 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
+    @Suppress("UnstableApiUsage")
     repositories {
         google()
         mavenCentral()
     }
 }
 
-rootProject.name = "ColoredShadow"
+rootProject.name = "SnapshotTestKMM"
 include(":androidApp")
 include(":shared")
+include(":snapshot-test-android")
+include(":shared-android-preview")

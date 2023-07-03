@@ -1,17 +1,17 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     id(libs.plugins.kotlin.android.get().pluginId)
     id(libs.plugins.ksp.get().pluginId)
 }
 
 android {
-    namespace = "tech.apter.coloredshadow.android"
+    namespace = "tech.apter.sharedandroidpreview"
     compileSdk = libs.versions.targetSdk.get().toInt()
+
     defaultConfig {
-        applicationId = "tech.apter.coloredshadow.android"
         minSdk = libs.versions.minSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     @Suppress("UnstableApiUsage")
@@ -31,12 +31,6 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
-
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-        }
-    }
 }
 
 kotlin {
@@ -47,10 +41,9 @@ kotlin {
 
 dependencies {
     implementation(project(":shared"))
-    implementation(project(":snapshot-test-android"))
     implementation(libs.compose.ui)
     implementation(libs.compose.tooling)
     implementation(libs.compose.preview)
-    implementation(libs.compose.material)
-    implementation(libs.compose.activity)
+    implementation(libs.test.showkase)
+    ksp(libs.test.showkase.processor)
 }
