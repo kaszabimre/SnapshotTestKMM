@@ -1,17 +1,18 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     id(libs.plugins.kotlin.android.get().pluginId)
     id(libs.plugins.ksp.get().pluginId)
+    id(libs.plugins.paparazzi.get().pluginId)
 }
 
 android {
-    namespace = "tech.apter.coloredshadow.android"
+    namespace = "tech.apter.androidsnapshottest"
     compileSdk = libs.versions.targetSdk.get().toInt()
+
     defaultConfig {
-        applicationId = "tech.apter.coloredshadow.android"
         minSdk = libs.versions.minSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     @Suppress("UnstableApiUsage")
@@ -47,10 +48,15 @@ kotlin {
 
 dependencies {
     implementation(project(":shared"))
-    implementation(project(":snapshot-test-android"))
+    implementation(project(":shared-android-preview"))
     implementation(libs.compose.ui)
-    implementation(libs.compose.tooling)
-    implementation(libs.compose.preview)
-    implementation(libs.compose.material)
     implementation(libs.compose.activity)
+    implementation(libs.compose.tooling)
+    implementation(libs.test.showkase)
+    ksp(libs.test.showkase.processor)
+
+    testImplementation(libs.test.junit)
+    testImplementation(libs.test.showkase.screenshot.testing)
+    testImplementation(libs.test.param.injector)
+    kspTest(libs.test.showkase.processor)
 }
